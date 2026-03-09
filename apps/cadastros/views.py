@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Aluno
 from .forms import AlunoForm
@@ -5,7 +6,12 @@ from .forms import AlunoForm
 
 def aluno_list(request):
     alunos = Aluno.objects.all()
-    return render(request, 'aluno_list.html', {'alunos': alunos})
+    
+    paginator = Paginator(alunos, 10)  # 10 alunos por página
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request, 'aluno_list.html', {'alunos': page_obj})
 
 
 def aluno_create(request):
