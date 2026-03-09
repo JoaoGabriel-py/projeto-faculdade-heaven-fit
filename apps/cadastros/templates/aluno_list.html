@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% load filtros_telefones %}
+
+{% block titulo %}HF - Alunos{% endblock %}
+
+{% block content %}
+    <h3 class="text-dark mb-4">HEAVEN - Alunos</h3>
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="row">
+                <div>
+                    <div class="text-md-end dataTables_filter" id="dataTable_filter"><label class="form-label"><a
+                                class="btn btn-outline-primary btn-icon-split" role="button"
+                                style="border-color: var(--bs-success);"><span class="text-success text">Adicionar
+                                    alunos</span></a></label></div>
+                </div>
+            </div>
+            <div class="table-responsive mt-2 table" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                <table class="table my-0" id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>NOME</th>
+                            <th>DATA MATRÍCULA</th>
+                            <th>TELEFONE</th>
+                            <th>E-MAIL</th>
+                            <th>STATUS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        {% for aluno_matriculado in alunos %}
+                            <tr>
+                                <td>{{ aluno_matriculado.nome }}</td>
+                                <td>{{ aluno_matriculado.data_matricula|date:"d M Y" }}</td>
+                                <td>{{ aluno_matriculado.telefone|celular_formato }}</td>
+                                <td>{{ aluno_matriculado.email }}</td>
+                                <td>
+                                    {% if aluno_matriculado.status %}
+                                        Ativo
+                                    {% else %}
+                                        Inativo
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div>
+                    <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+                        <ul class="pagination">
+                            <li class="page-item disabled"><a class="page-link" aria-label="Previous" href="#"><span
+                                        aria-hidden="true">«</span></a></li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span
+                                        aria-hidden="true">»</span></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock  %}
