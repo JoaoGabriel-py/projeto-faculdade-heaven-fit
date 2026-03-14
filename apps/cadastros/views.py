@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Aluno
-from .forms import AlunoForm
+from .forms import AlunoCreateForm, AlunoUpdateForm
 
 
 def aluno_list(request):
@@ -15,7 +15,7 @@ def aluno_list(request):
 
 
 def aluno_create(request):
-    form = AlunoForm(request.POST or None)
+    form = AlunoCreateForm(request.POST or None)
     
     if form.is_valid():
         form.save()
@@ -26,7 +26,7 @@ def aluno_create(request):
 
 def aluno_update(request, pk):
     aluno = get_object_or_404(Aluno, pk=pk)
-    form = AlunoForm(request.POST or None, instance=aluno)
+    form = AlunoUpdateForm(request.POST or None, instance=aluno)
     
     if form.is_valid():
         form.save()
