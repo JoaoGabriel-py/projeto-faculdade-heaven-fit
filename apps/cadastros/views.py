@@ -5,7 +5,7 @@ from .forms import AlunoForm
 
 
 def aluno_list(request):
-    alunos = Aluno.objects.all()
+    alunos = Aluno.objects.filter(status=True)
     
     paginator = Paginator(alunos, 10)  # 10 alunos por página
     page_number = request.GET.get('page')
@@ -37,9 +37,9 @@ def aluno_update(request, pk):
 
 def aluno_delete(request, pk):
     aluno = get_object_or_404(Aluno, pk=pk)
-    
+
     if request.method == 'POST':
-        aluno.delete()
-        return redirect('aluno_list')
-    
-    return render(request, 'aluno_confirm_delete.html', {'aluno': aluno})
+        aluno.status = False
+        aluno.save()
+
+    return redirect(request.META.get("HTTP_REFERER", "aluno_list"))

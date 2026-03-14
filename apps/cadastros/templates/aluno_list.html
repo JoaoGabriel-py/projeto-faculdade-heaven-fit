@@ -5,90 +5,100 @@
 {% block titulo %}HF - Alunos{% endblock %}
 
 {% block content %}
-    <h3 class="text-dark mb-4">HEAVEN - Alunos</h3>
-    <div class="card shadow">
-        <div class="card-body">
-            <div class="row">
-                <div>
-                    <div class="text-md-end dataTables_filter" id="dataTable_filter"><label class="form-label"><a
-                                class="btn btn-outline-primary btn-icon-split" role="button" href="{% url 'aluno_create' %}"
-                                style="border-color: var(--bs-success);"><span class="text-success text">Adicionar
-                                    alunos</span></a></label></div>
-                </div>
+<h3 class="text-dark mb-4">HEAVEN - Alunos</h3>
+<div class="card shadow">
+    <div class="card-body">
+        <div class="row">
+            <div>
+                <div class="text-md-end dataTables_filter" id="dataTable_filter"><label class="form-label"><a
+                            class="btn btn-outline-primary btn-icon-split" role="button" href="{% url 'aluno_create' %}"
+                            style="border-color: var(--bs-success);"><span class="text-success text">Adicionar
+                                alunos</span></a></label></div>
             </div>
-            <div class="table-responsive mt-2 table" id="dataTable" role="grid" aria-describedby="dataTable_info">
-                <table class="table my-0" id="dataTable">
-                    <thead>
+        </div>
+        <div class="table-responsive mt-2 table" id="dataTable" role="grid" aria-describedby="dataTable_info">
+            <table class="table my-0" id="dataTable">
+                <thead>
+                    <tr>
+                        <th class="text-center">NOME</th>
+                        <th class="text-center">DATA MATRÍCULA</th>
+                        <th class="text-center">TELEFONE</th>
+                        <th class="text-center">E-MAIL</th>
+                        <th class="text-center">STATUS</th>
+                        <th class="text-center">AÇÕES</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% for aluno_matriculado in alunos %}
                         <tr>
-                            <th class="text-center">NOME</th>
-                            <th class="text-center">DATA MATRÍCULA</th>
-                            <th class="text-center">TELEFONE</th>
-                            <th class="text-center">E-MAIL</th>
-                            <th class="text-center">STATUS</th>
-                            <th class="text-center">AÇÕES</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        
-                        {% for aluno_matriculado in alunos %}
-                            <tr>
-                                <td class="text-center"><span class="lista">{{ aluno_matriculado.nome }}</span></td>
-                                <td class="text-center"><span class="lista">{{ aluno_matriculado.data_matricula|date:"d M Y" }}</span></td>
-                                <td class="text-center"><span class="lista">{{ aluno_matriculado.telefone|celular_formato }}</span></td>
-                                <td class="text-center"><span class="lista">{{ aluno_matriculado.email }}</span></td>
-                                <td class="text-center"><span class="lista">
+                            <td class="text-center"><span class="lista">{{ aluno_matriculado.nome }}</span></td>
+                            <td class="text-center"><span class="lista">{{ aluno_matriculado.data_matricula|date:"d M Y"}}</span></td>
+                            <td class="text-center"><span class="lista">{{ aluno_matriculado.telefone|celular_formato}}</span></td>
+                            <td class="text-center"><span class="lista">{{ aluno_matriculado.email }}</span></td>
+                            <td class="text-center"><span class="lista">
                                     {% if aluno_matriculado.status %}
-                                        Ativo
+                                    Ativo
                                     {% else %}
-                                        Inativo
+                                    Inativo
                                     {% endif %}
                                 </span></td>
-                                <td class="text-center"><a class="btn" href="{% url 'aluno_update' aluno_matriculado.pk %}" role="button"><i class="far fa-edit"></i></a><a class="btn" href="#" role="button"><i class="far fa-trash-alt"></i></a></td>
-                            </tr>
+                            <td class="text-center">
+                                <a class="btn" href="{% url 'aluno_update' aluno_matriculado.pk %}"
+                                    role="button"><i class="far fa-edit"></i>
+                                </a>
+                                <form method="POST" action="{% url 'aluno_delete' aluno_matriculado.pk %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button class="btn" type="submit">
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <div>
+                <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+                    <ul class="pagination">
+                        {% if alunos.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ alunos.previous_page_number }}">&laquo;</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">&laquo;</span>
+                        </li>
+                        {% endif %}
+
+                        {% for num in alunos.paginator.page_range %}
+                        {% if num == alunos.number %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                        {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                        </li>
+                        {% endif %}
                         {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            <div class="row">
-                <div>
-                    <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
-                        <ul class="pagination">
-                            {% if alunos.has_previous %}
-                                <li class="page-item">
-                                    <a class="page-link" href="?page={{ alunos.previous_page_number }}">&laquo;</a>
-                                </li>
-                            {% else %}
-                                <li class="page-item disabled">
-                                    <span class="page-link">&laquo;</span>
-                                </li>
-                            {% endif %}
 
-                            {% for num in alunos.paginator.page_range %}
-                                {% if num == alunos.number %}
-                                    <li class="page-item active">
-                                        <span class="page-link">{{ num }}</span>
-                                    </li>
-                                {% else %}
-                                    <li class="page-item">
-                                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-                                    </li>
-                                {% endif %}
-                            {% endfor %}
-
-                            {% if alunos.has_next %}
-                                <li class="page-item">
-                                    <a class="page-link" href="?page={{ alunos.next_page_number }}">&raquo;</a>
-                                </li>
-                            {% else %}
-                                <li class="page-item disabled">
-                                    <span class="page-link">&raquo;</span>
-                                </li>
-                            {% endif %}
-                        </ul>
-                    </nav>
-                </div>
+                        {% if alunos.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ alunos.next_page_number }}">&raquo;</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">&raquo;</span>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>
-    </div>
-{% endblock  %}
+</div>
+</div>
+{% endblock %}
