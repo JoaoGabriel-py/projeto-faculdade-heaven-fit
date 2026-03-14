@@ -5,4 +5,4 @@ from .models import Aluno
 class AlunoForm(ModelForm):
     class Meta:
         model = Aluno
-        fields = ['nome', 'cpf', 'telefone', 'email', 'data_nascimento']
+        fields = ['nome', 'cpf', 'telefone', 'email', 'status']

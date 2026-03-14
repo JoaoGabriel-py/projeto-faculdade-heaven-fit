@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block titulo %}HF - Alunos{% endblock %}
+
+{% block content %}
+<h3 class="text-dark mb-4">Cadastrar Alunos</h3>
+<div class="card shadow mb-3">
+    <div class="card-body">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col">
+                    <div class="mb-3"><label class="form-label" for="nome"><strong>Nome*</strong></label><input class="form-control" type="text" name="nome" required="" autofocus="" placeholder="Digite o nome do aluno"></div>
+                </div>
+                <div class="col">
+                    <div class="mb-3"><label class="form-label" for="cpf"><strong>CPF*</strong></label><input id="cpf" class="form-control" type="text" name="cpf" required="" autofocus="" placeholder="Digite o CPF do aluno"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="mb-3"><label class="form-label" for="email"><strong>E-mail*</strong></label><input class="form-control form-control" type="email" name="email" required="" placeholder="Digite o e-mail do aluno"></div>
+                </div>
+                <div class="col">
+                    <div class="mb-3"><label class="form-label" for="telefone"><strong>Celular*</strong></label><input id="telefone" class="form-control" type="text" name="telefone" required="" placeholder="Digite o número do aluno"></div>
+                </div>
+            </div>
+            <div class="text-end mb-3"><a class="btn btn-warning m-1 cancelar" role="button" href="{% url 'aluno_list' %}"><span class="text-success text"><span style="color: rgb(255, 255, 255);">CANCELAR</span></span></a><button type="submit" class="btn btn-success salvar"><span class="text-success text"><span style="color: rgb(255, 255, 255);">SALVAR</span></span></button></div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

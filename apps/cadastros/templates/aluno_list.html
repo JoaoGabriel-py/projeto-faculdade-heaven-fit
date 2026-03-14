@@ -11,7 +11,7 @@
             <div class="row">
                 <div>
                     <div class="text-md-end dataTables_filter" id="dataTable_filter"><label class="form-label"><a
-                                class="btn btn-outline-primary btn-icon-split" role="button"
+                                class="btn btn-outline-primary btn-icon-split" role="button" href="{% url 'aluno_create' %}"
                                 style="border-color: var(--bs-success);"><span class="text-success text">Adicionar
                                     alunos</span></a></label></div>
                 </div>
@@ -20,28 +20,30 @@
                 <table class="table my-0" id="dataTable">
                     <thead>
                         <tr>
-                            <th>NOME</th>
-                            <th>DATA MATRÍCULA</th>
-                            <th>TELEFONE</th>
-                            <th>E-MAIL</th>
-                            <th>STATUS</th>
+                            <th class="text-center">NOME</th>
+                            <th class="text-center">DATA MATRÍCULA</th>
+                            <th class="text-center">TELEFONE</th>
+                            <th class="text-center">E-MAIL</th>
+                            <th class="text-center">STATUS</th>
+                            <th class="text-center">AÇÕES</th>
                         </tr>
                     </thead>
                     <tbody>
                         
                         {% for aluno_matriculado in alunos %}
                             <tr>
-                                <td>{{ aluno_matriculado.nome }}</td>
-                                <td>{{ aluno_matriculado.data_matricula|date:"d M Y" }}</td>
-                                <td>{{ aluno_matriculado.telefone|celular_formato }}</td>
-                                <td>{{ aluno_matriculado.email }}</td>
-                                <td>
+                                <td class="text-center"><span class="lista">{{ aluno_matriculado.nome }}</span></td>
+                                <td class="text-center"><span class="lista">{{ aluno_matriculado.data_matricula|date:"d M Y" }}</span></td>
+                                <td class="text-center"><span class="lista">{{ aluno_matriculado.telefone|celular_formato }}</span></td>
+                                <td class="text-center"><span class="lista">{{ aluno_matriculado.email }}</span></td>
+                                <td class="text-center"><span class="lista">
                                     {% if aluno_matriculado.status %}
                                         Ativo
                                     {% else %}
                                         Inativo
                                     {% endif %}
-                                </td>
+                                </span></td>
+                                <td class="text-center"><a class="btn" href="{% url 'aluno_update' aluno_matriculado.pk %}" role="button"><i class="far fa-edit"></i></a><a class="btn" href="#" role="button"><i class="far fa-trash-alt"></i></a></td>
                             </tr>
                         {% endfor %}
                     </tbody>

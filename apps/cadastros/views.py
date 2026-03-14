@@ -20,7 +20,8 @@ def aluno_create(request):
     if form.is_valid():
         form.save()
         return redirect('aluno_list')
-    return render(request, 'aluno_form.html', {'form': form})
+    
+    return render(request, 'aluno_create.html', {'form': form})
 
 
 def aluno_update(request, pk):
@@ -30,7 +31,8 @@ def aluno_update(request, pk):
     if form.is_valid():
         form.save()
         return redirect('aluno_list')
-    return render(request, 'aluno_form.html', {'form': form})
+    
+    return render(request, 'aluno_update.html', {'aluno': form})
 
 
 def aluno_delete(request, pk):

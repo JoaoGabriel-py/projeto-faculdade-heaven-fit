@@ -69,6 +69,19 @@
     </div>
     <script src="{% static 'assets/bootstrap/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'assets/js/theme.js' %}"></script>
+    
+    <script src="https://unpkg.com/imask"></script>
+    <script>
+    var cpfMask = IMask(
+    document.getElementById('cpf'),
+    { mask: '000.000.000-00' }
+    );
+
+    var phoneMask = IMask(
+    document.getElementById('telefone'),
+    { mask: '(00) 00000-0000' }
+    );
+    </script>
 </body>
 
 </html>
