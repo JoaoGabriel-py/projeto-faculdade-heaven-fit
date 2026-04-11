@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Aluno
-from .forms import AlunoCreateForm, AlunoUpdateForm
+from .models import Aluno, Modalidade
+from .forms import AlunoCreateForm, AlunoUpdateForm, ModalidadeCreateForm, ModalidadeUpdateForm
 
 
 def aluno_list(request):
@@ -11,7 +11,7 @@ def aluno_list(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
-    return render(request, 'aluno_list.html', {'alunos': page_obj})
+    return render(request, 'aluno/aluno_list.html', {'alunos': page_obj})
 
 
 def aluno_create(request):
@@ -21,7 +21,7 @@ def aluno_create(request):
         form.save()
         return redirect('aluno_list')
     
-    return render(request, 'aluno_create.html', {'form': form})
+    return render(request, 'aluno/aluno_create.html', {'form': form})
 
 
 def aluno_update(request, pk):
@@ -32,7 +32,7 @@ def aluno_update(request, pk):
         form.save()
         return redirect('aluno_list')
     
-    return render(request, 'aluno_update.html', {'aluno': form})
+    return render(request, 'aluno/aluno_update.html', {'aluno': form})
 
 
 def aluno_delete(request, pk):
@@ -43,3 +43,44 @@ def aluno_delete(request, pk):
         aluno.save()
 
     return redirect(request.META.get("HTTP_REFERER", "aluno_list"))
+
+
+def modalidade_list(request):
+    modalidades = Modalidade.objects.filter(status=True)
+    
+    paginator = Paginator(modalidades, 10)  # 10 modalidades por página
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request, 'modalidade/modalidade_list.html', {'modalidades': page_obj})
+
+
+def modalidade_create(request):
+    form = ModalidadeCreateForm(request.POST or None)
+    
+    if form.is_valid():
+        form.save()
+        return redirect('modalidade_list')
+    
+    return render(request, 'modalidade/modalidade_create.html', {'form': form})
+
+
+def modalidade_update(request, pk):
+    modalidade = get_object_or_404(Modalidade, pk=pk)
+    form = ModalidadeUpdateForm(request.POST or None, instance=modalidade)
+    
+    if form.is_valid():
+        form.save()
+        return redirect('modalidade_list')
+    
+    return render(request, 'modalidade/modalidade_update.html', {'modalidade': form})
+
+
+def modalidade_delete(request, pk):
+    modalidade = get_object_or_404(Modalidade, pk=pk)
+
+    if request.method == 'POST':
+        modalidade.status = False
+        modalidade.save()
+
+    return redirect(request.META.get("HTTP_REFERER", "modalidade_list"))
