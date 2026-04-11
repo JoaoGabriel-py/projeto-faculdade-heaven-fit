@@ -24,7 +24,7 @@
                     <div class="mb-3"><label class="form-label" for="valor"><strong>Valor*</strong></label><input id="valor" class="form-control" type="text" name="valor" required="" placeholder="Digite o valor da modalidade" value="{{modalidade.valor.value}}"></div>
                 </div>
                 <div class="col-4">
-                    <div class="mb-3"><label class="form-label" for="status"><strong>Status*</strong></label><select class="form-select form-control" name="status" placeholder="" required="">
+                    <div class="mb-3"><label class="form-label" for="status"><strong>Status*</strong></label><select class="form-select form-control" name="status" placeholder="" required="False">
                             <option value="True" {% if modalidade.status.value %}selected{% endif %}>Ativo</option>
                             <option value="False" {% if not modalidade.status.value %}selected{% endif %}>Inativo</option>
                         </select></div>
