@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% load filtros_telefones %}
+
+{% block titulo %}HF - Matricula{% endblock %}
+
+{% block content %}
+<h3 class="text-dark mb-4">HEAVEN - Matricula</h3>
+<div class="card shadow">
+    <div class="card-body">
+        <div class="row">
+            <div>
+                <div class="text-md-end dataTables_filter" id="dataTable_filter"><label class="form-label"><a
+                            class="btn btn-outline-primary btn-icon-split" role="button" href="{% url 'matricula_create' %}"
+                            style="border-color: var(--bs-success);"><span class="text-success text">Adicionar
+                                matricula</span></a></label></div>
+            </div>
+        </div>
+        <div class="table-responsive mt-2 table" id="dataTable" role="grid" aria-describedby="dataTable_info">
+            <table class="table my-0" id="dataTable">
+                <thead>
+                    <tr>
+                        <th class="text-center">ALUNO</th>
+                        <th class="text-center">MODALIDADE</th>
+                        <th class="text-center">STATUS</th>
+                        <th class="text-center">AÇÕES</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for matricula in matriculas %}
+                        <tr>
+                            <td class="text-center"><span class="lista">{{ matricula.aluno }}</span></td>
+                            <td class="text-center"><span class="lista">{{ matricula.modalidade }}</span></td>
+                            <td class="text-center"><span class="lista">
+                                    {% if matricula.status %}
+                                    Ativo
+                                    {% else %}
+                                    Inativo
+                                    {% endif %}
+                                </span></td>
+                            <td class="text-center">
+                                <a class="btn" href="{% url 'matricula_update' matricula.pk %}"
+                                    role="button"><i class="far fa-edit"></i>
+                                </a>
+                                <form method="POST" action="{% url 'matricula_delete' matricula.pk %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button class="btn" type="submit">
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <div>
+                <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+                    <ul class="pagination">
+                        {% if matriculas.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ matriculas.previous_page_number }}">&laquo;</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">&laquo;</span>
+                        </li>
+                        {% endif %}
+
+                        {% for num in matriculas.paginator.page_range %}
+                        {% if num == matriculas.number %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                        {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% if matriculas.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ matriculas.next_page_number }}">&raquo;</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">&raquo;</span>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

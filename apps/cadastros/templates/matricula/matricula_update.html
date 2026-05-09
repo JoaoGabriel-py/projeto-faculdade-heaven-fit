@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block titulo %}HF - Matricula{% endblock %}
+
+{% block content %}
+<h3 class="text-dark mb-4">Editar Matricula</h3>
+<div class="card shadow mb-3">
+    <div class="card-body">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-3"><label class="form-label" for="aluno"><strong>Aluno*</strong></label>
+                        <select class="form-control" name="aluno" required="" autofocus="">
+                            {% for aluno in alunos %}
+                                <option value="{{ aluno.id }}" {% if aluno.id == matricula.aluno.id %}selected{% endif %}>{{ aluno.nome }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3"><label class="form-label" for="modalidade"><strong>Modalidade*</strong></label>
+                        <select id="modalidade" class="form-control" name="modalidade" required="">
+                            {% for modalidade in modalidades %}
+                                <option value="{{ modalidade.id }}" {% if modalidade.id == matricula.modalidade.id %}selected{% endif %}>{{ modalidade.nome }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="mb-3"><label class="form-label" for="status"><strong>Status*</strong></label>
+                        <select id="status" class="form-control" name="status" required="">
+                            <option value="True" {% if matricula.status %}selected{% endif %}>Ativo</option>
+                            <option value="False" {% if not matricula.status %}selected{% endif %}>Inativo</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="text-end mb-3"><a class="btn btn-warning m-1 cancelar" role="button" href="{% url 'modalidade_list' %}"><span class="text-success text"><span style="color: rgb(255, 255, 255);">CANCELAR</span></span></a><button type="submit" class="btn btn-success salvar"><span class="text-success text"><span style="color: rgb(255, 255, 255);">SALVAR</span></span></button></div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

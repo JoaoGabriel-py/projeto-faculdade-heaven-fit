@@ -1,5 +1,5 @@
 from django.forms import DecimalField, ModelForm
-from .models import Aluno, Modalidade
+from .models import Aluno, Matricula, Modalidade
 
 
 class AlunoCreateForm(ModelForm):
@@ -32,3 +32,15 @@ class ModalidadeUpdateForm(ModelForm):
         if isinstance(valor, str):
             valor = valor.replace(',', '.')
         return valor
+
+
+class MatriculaCreateForm(ModelForm):
+    class Meta:
+        model = Matricula
+        fields = ['aluno', 'modalidade']
+        
+
+class MatriculaUpdateForm(ModelForm):
+    class Meta:
+        model = Matricula
+        fields = ['aluno', 'modalidade', 'status']

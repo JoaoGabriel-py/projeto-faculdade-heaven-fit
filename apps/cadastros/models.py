@@ -33,3 +33,29 @@ class Modalidade(models.Model):
     
     class Meta:
         ordering = ["nome"]
+
+
+class Matricula(models.Model):
+    
+    aluno = models.ForeignKey(
+        'Aluno',
+        on_delete=models.CASCADE,
+        related_name='matriculas'
+    )
+    
+    modalidade = models.ForeignKey(
+        'Modalidade',
+        on_delete=models.CASCADE,
+        related_name='matriculas'
+    )
+    
+    data_matricula = models.DateField(auto_now_add=True)
+    
+    status = models.BooleanField(default=True)
+    
+    def __str__(self):
+        return f"{self.aluno.nome} - {self.modalidade.nome}"
+    
+    class Meta:
+        ordering = ["data_matricula"]
+        unique_together = ('aluno', 'modalidade')

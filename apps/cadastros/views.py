@@ -1,7 +1,8 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Aluno, Modalidade
+from .models import Aluno, Matricula, Modalidade
 from .forms import AlunoCreateForm, AlunoUpdateForm, ModalidadeCreateForm, ModalidadeUpdateForm
+from .forms import MatriculaCreateForm, MatriculaUpdateForm
 
 
 def aluno_list(request):
@@ -84,3 +85,44 @@ def modalidade_delete(request, pk):
         modalidade.save()
 
     return redirect(request.META.get("HTTP_REFERER", "modalidade_list"))
+
+
+def matricula_list(request):
+    matriculas = Matricula.objects.filter(status=True)
+    
+    paginator = Paginator(matriculas, 10)  # 10 matriculas por página
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request, 'matricula/matricula_list.html', {'matriculas': page_obj})
+
+
+def matricula_create(request):
+    form = MatriculaCreateForm(request.POST or None)
+    
+    if form.is_valid():
+        form.save()
+        return redirect('matricula_list')
+    
+    return render(request, 'matricula/matricula_create.html', {'form': form})
+
+
+def matricula_update(request, pk):
+    matricula = get_object_or_404(Matricula, pk=pk)
+    form = MatriculaUpdateForm(request.POST or None, instance=matricula)
+    
+    if form.is_valid():
+        form.save()
+        return redirect('matricula_list')
+    
+    return render(request, 'matricula/matricula_update.html', {'matricula': form})
+
+
+def matricula_delete(request, pk):
+    matricula = get_object_or_404(Matricula, pk=pk)
+
+    if request.method == 'POST':
+        matricula.status = False
+        matricula.save()
+
+    return redirect(request.META.get("HTTP_REFERER", "matricula_list"))
