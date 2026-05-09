@@ -88,7 +88,7 @@ def modalidade_delete(request, pk):
 
 
 def matricula_list(request):
-    matriculas = Matricula.objects.filter(status=True)
+    matriculas = Matricula.objects.filter()
     
     paginator = Paginator(matriculas, 10)  # 10 matriculas por página
     page_number = request.GET.get('page')
@@ -104,7 +104,14 @@ def matricula_create(request):
         form.save()
         return redirect('matricula_list')
     
-    return render(request, 'matricula/matricula_create.html', {'form': form})
+    alunos = Aluno.objects.filter(status=True)
+    modalidades = Modalidade.objects.filter(status=True)
+    
+    return render(request, 'matricula/matricula_create.html', {
+        'form': form,
+        'alunos': alunos,
+        'modalidades': modalidades,
+    })
 
 
 def matricula_update(request, pk):
@@ -115,7 +122,14 @@ def matricula_update(request, pk):
         form.save()
         return redirect('matricula_list')
     
-    return render(request, 'matricula/matricula_update.html', {'matricula': form})
+    alunos = Aluno.objects.filter(status=True)
+    modalidades = Modalidade.objects.filter(status=True)
+    
+    return render(request, 'matricula/matricula_update.html', {
+        'matricula': form,
+        'alunos': alunos,
+        'modalidades': modalidades,
+    })
 
 
 def matricula_delete(request, pk):
