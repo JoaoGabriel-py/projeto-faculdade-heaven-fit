@@ -1,46 +1,58 @@
 from django.forms import DecimalField, ModelForm
-from .models import Aluno, Matricula, Modalidade
+from .models import Aluno, Matricula, Modalidade, Presenca
 
 
 class AlunoCreateForm(ModelForm):
     class Meta:
         model = Aluno
-        fields = ['nome', 'cpf', 'telefone', 'email']
-        
+        fields = ["nome", "cpf", "telefone", "email"]
+
 
 class AlunoUpdateForm(ModelForm):
     class Meta:
         model = Aluno
-        fields = ['nome', 'cpf', 'telefone', 'email', 'status']
-        
+        fields = ["nome", "cpf", "telefone", "email", "status"]
+
 
 class ModalidadeCreateForm(ModelForm):
     class Meta:
         model = Modalidade
-        fields = ['nome', 'descricao', 'professor', 'valor']
-        
+        fields = ["nome", "descricao", "professor", "valor"]
+
 
 class ModalidadeUpdateForm(ModelForm):
     valor = DecimalField(localize=True)
-    
+
     class Meta:
         model = Modalidade
-        fields = ['nome', 'descricao', 'professor', 'valor', 'status']
-        
+        fields = ["nome", "descricao", "professor", "valor", "status"]
+
     def clean_valor(self):
-        valor = self.cleaned_data.get('valor')
+        valor = self.cleaned_data.get("valor")
         if isinstance(valor, str):
-            valor = valor.replace(',', '.')
+            valor = valor.replace(",", ".")
         return valor
 
 
 class MatriculaCreateForm(ModelForm):
     class Meta:
         model = Matricula
-        fields = ['aluno', 'modalidade']
-        
+        fields = ["aluno", "modalidade"]
+
 
 class MatriculaUpdateForm(ModelForm):
     class Meta:
         model = Matricula
-        fields = ['aluno', 'modalidade', 'status']
+        fields = ["aluno", "modalidade", "status"]
+
+
+class PresencaCreateForm(ModelForm):
+    class Meta:
+        model = Presenca
+        fields = ["matricula", "data_presenca"]
+
+
+class PresencaUpdateForm(ModelForm):
+    class Meta:
+        model = Presenca
+        fields = ["matricula", "data_presenca", "status"]

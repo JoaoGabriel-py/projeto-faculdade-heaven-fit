@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block titulo %}HF - Presenças{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<h3 class="text-dark mb-4">Cadastrar Presenças</h3>
+<div class="card shadow mb-3">
+    <div class="card-body">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-3"><label class="form-label" for="matricula"><strong>Matrícula*</strong></label>
+                        <select class="form-control" id="matricula" name="matricula" required="" autofocus="">
+                            <option value="" disabled selected>Selecione a matrícula</option>
+                            {% for matricula in matriculas %}
+                                <option value="{{ matricula.id }}">{{ matricula.aluno.nome }} - {{ matricula.modalidade.nome }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3"><label class="form-label" for="data_presenca"><strong>Data e Hora*</strong></label><input id="data_presenca" class="form-control" type="text" name="data_presenca" required="" placeholder="DD/MM/AAAA HH:MM"></div>
+                </div>
+            </div>
+            <div class="text-end mb-3"><a class="btn btn-warning m-1 cancelar" role="button" href="{% url 'presenca_list' %}"><span class="text-success text"><span style="color: rgb(255, 255, 255);">CANCELAR</span></span></a><button type="submit" class="btn btn-success salvar"><span class="text-success text"><span style="color: rgb(255, 255, 255);">SALVAR</span></span></button></div>
+        </form>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
+<script>
+    flatpickr("#data_presenca", {
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
+        altInput: true,
+        altFormat: "d/m/Y H:i",
+        time_24hr: true,
+        defaultDate: new Date(),
+        locale: "pt"
+    });
+</script>
+{% endblock content %}

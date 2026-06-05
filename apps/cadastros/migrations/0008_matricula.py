@@ -7,22 +7,44 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('cadastros', '0007_modalidade'),
+        ("cadastros", "0007_modalidade"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Matricula',
+            name="Matricula",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('data_matricula', models.DateField(auto_now_add=True)),
-                ('status', models.BooleanField(default=True)),
-                ('aluno', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='matriculas', to='cadastros.aluno')),
-                ('modalidade', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='matriculas', to='cadastros.modalidade')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("data_matricula", models.DateField(auto_now_add=True)),
+                ("status", models.BooleanField(default=True)),
+                (
+                    "aluno",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="matriculas",
+                        to="cadastros.aluno",
+                    ),
+                ),
+                (
+                    "modalidade",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="matriculas",
+                        to="cadastros.modalidade",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['data_matricula'],
-                'unique_together': {('aluno', 'modalidade')},
+                "ordering": ["data_matricula"],
+                "unique_together": {("aluno", "modalidade")},
             },
         ),
     ]

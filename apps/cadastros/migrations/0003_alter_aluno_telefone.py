@@ -7,13 +7,15 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('cadastros', '0002_aluno_status'),
+        ("cadastros", "0002_aluno_status"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='aluno',
-            name='telefone',
-            field=phonenumber_field.modelfields.PhoneNumberField(max_length=128, region=None),
+            model_name="aluno",
+            name="telefone",
+            field=phonenumber_field.modelfields.PhoneNumberField(
+                max_length=128, region=None
+            ),
         ),
     ]

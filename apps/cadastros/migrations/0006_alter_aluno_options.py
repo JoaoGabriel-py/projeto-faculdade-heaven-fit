@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('cadastros', '0005_remove_aluno_data_nascimento'),
+        ("cadastros", "0005_remove_aluno_data_nascimento"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='aluno',
-            options={'ordering': ['nome']},
+            name="aluno",
+            options={"ordering": ["nome"]},
         ),
     ]
